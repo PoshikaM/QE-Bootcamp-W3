@@ -2,8 +2,11 @@ import http from 'k6/http';
 import { check, sleep } from 'k6';
 
 export const options = {
-  vus: 10,             // number of virtual users
-  duration: '10s',     // test duration
+  stages: [
+    { duration: '10s', target: 10 }, // ramp-up from 0 to 10 VUs
+    { duration: '30s', target: 10 }, // hold at 10 VUs
+    { duration: '10s', target: 0 },  // ramp-down to 0 VUs
+  ],
 };
 
 export default function () {
